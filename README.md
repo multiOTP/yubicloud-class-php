@@ -7,9 +7,9 @@ Yubicloud PHP class is a GNU LGPL class to check YubiKeys using YubiCloud.
 The Yubicloud PHP class is a subset of the multiOTP open source project.  
 http://www.multiOTP.net/
 
-Current build: 4.3.1.3 (2014-12-26)
+Current build: 4.3.2.0 (2014-12-29)
 
-No external file is needed (no PEAR, no PECL).
+No external file is needed (no PEAR, no PECL, no cURL).
 
 
 # Usage
@@ -20,7 +20,7 @@ No external file is needed (no PEAR, no PECL).
     <?php
         require_once('yubicloud.class.php');
         $yubicloud = new Yubicloud("my_client_id", "my_secret_key");
-        $result = $yubicloud->CheckOnYubiCloud($otp_to_check);
+        $result = $yubicloud->checkOnYubiCloud($otp_to_check);
     ?>
 
 

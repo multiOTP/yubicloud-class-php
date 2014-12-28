@@ -10,11 +10,12 @@
  * PHP 5.3.0 or higher is supported.
  *
  * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
- * @version   4.3.1.3
- * @date      2014-12-26
+ * @version   4.3.2.0
+ * @date      2014-12-29
  * @since     2014-11-04
  * @copyright (c) 2014 SysCo systemes de communication sa
- * @copyright GNU Lesser General Public License
+ * @license   GNU Lesser General Public License
+ * @link      http://www.multiotp.net/
  *
  *//*
  *
@@ -50,6 +51,7 @@
  *
  * Change Log
  *
+ *   2014-12-29 4.3.2.0 SysCo/al Some modifications for future PSR compliance (http://www.php-fig.org/)
  *   2014-12-26 4.3.1.3 SysCo/al Additional detailed information
  *   2014-12-22 4.3.1.2 SysCo/al Detailed response information
  *   2014-11-04 4.3.0.0 SysCo/al Initial release, version number is synchronized with the multiOTP project
@@ -61,7 +63,7 @@
     
     echo "<html>\n";
     echo "<head>\n";
-    echo "<title>YubiCloud demo</title>\n";
+    echo "<title>Yubicloud PHP class demo</title>\n";
     echo "</head>\n";
     echo "<body onload=\"document.getElementById('otp').focus();\">\n";
     echo "<form method=\"post\" action=\"yubicloud.demo.php\">\n";
@@ -76,7 +78,7 @@
     if (0 != strlen($otp_to_check))
     {
         $yubicloud = new Yubicloud();
-        $result = $yubicloud->CheckOnYubiCloud($otp_to_check);
+        $result = $yubicloud->checkOnYubiCloud($otp_to_check);
         
         echo "<hr />";
         echo "OTP to check: <b>$otp_to_check</b>\n";
@@ -84,15 +86,13 @@
         echo "YubiCloud result: <b>$result</b>\n";
         echo "<br /><br />\n";
         
-        $response = $yubicloud->GetYubiCloudLastResponse();
+        $response = $yubicloud->getYubiCloudLastResponse();
         ksort($response);
         echo "Detailed response: <br />\n";
         echo "<table>\n";
-        foreach($response as $key=>$value)
-        {
+        foreach($response as $key=>$value) {
             echo "<tr><td>$key:</td><td><b>$value</b></td><td><i>";
-            switch ($key)
-            {
+            switch ($key) {
                 case "otp":
                     echo "The OTP from the YubiKey, from request.";
                     break;
@@ -131,7 +131,7 @@
         }
         echo "</table>\n";
     }
-?>
+    echo <<< EOT
 <hr />
 <pre>
                    OK  The OTP is valid.
@@ -150,7 +150,6 @@ OPERATION_NOT_ALLOWED  The request id is not allowed to verify OTPs.
    OUT_OF_TIME_WINDOW  Timestamp difference with the Yubico servers is bigger than yubicloud_max_time_window.
        SERVER_TIMEOUT  Timeout while waiting an answer from the server.
 </pre>
-<?php
+EOT;
     echo "</body>\n";
     echo "</html>";
-?>
