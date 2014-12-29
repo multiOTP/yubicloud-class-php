@@ -146,13 +146,13 @@ class Yubicloud
 
     function setYubicloudMaxTimeWindow($max_time)
     /**
-     * @brief   Set the timeout when talking to the YubiCloud servers
+     * @brief   Set the maximum difference of time with the remote server
      *
-     * @param   int $max_time  Maximum time to wait for an answer
+     * @param   int $max_time  Maximum time diffence
      * @retval  void
      *
      * @author  Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-     * @version 4.3.2.0
+     * @version 4.3.2.1
      * @date    2014-12-29
      * @since   2014-11-04
      */
