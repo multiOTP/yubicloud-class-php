@@ -10,7 +10,7 @@
  * PHP 5.3.0 or higher is supported.
  *
  * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
- * @version   4.3.2.0
+ * @version   4.3.2.1
  * @date      2014-12-29
  * @since     2014-11-04
  * @copyright (c) 2014 SysCo systemes de communication sa
@@ -51,6 +51,7 @@
  *
  * Change Log
  *
+ *   2014-12-29 4.3.2.1 SysCo/al Adding information about the server which answered
  *   2014-12-29 4.3.2.0 SysCo/al Some modifications for future PSR compliance (http://www.php-fig.org/)
  *   2014-12-26 4.3.1.3 SysCo/al Additional detailed information
  *   2014-12-22 4.3.1.2 SysCo/al Detailed response information

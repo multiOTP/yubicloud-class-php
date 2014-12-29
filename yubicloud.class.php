@@ -17,7 +17,7 @@
  * PHP 5.3.0 or higher is supported.
  *
  * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
- * @version   4.3.2.0
+ * @version   4.3.2.1
  * @date      2014-12-29
  * @since     2014-11-04
  * @copyright (c) 2014 SysCo systemes de communication sa
@@ -81,6 +81,7 @@
  *
  * Change Log
  *
+ *   2014-12-29 4.3.2.1 SysCo/al Adding information about the server which answered
  *   2014-12-29 4.3.2.0 SysCo/al Concurrent multiple requests (still without cURL)
  *                               Some modifications for future PSR compliance (http://www.php-fig.org/)
  *   2014-12-26 4.3.1.3 SysCo/al Better hash_hmac integration
@@ -95,7 +96,7 @@ class Yubicloud
  * @brief     Class definition for Yubicloud handling.
  *
  * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
- * @version   4.3.2.0
+ * @version   4.3.2.1
  * @date      2014-12-29
  * @since     2014-11-04
  */
@@ -103,11 +104,11 @@ class Yubicloud
     var $_yubicloud_client_id      = 1;     // YubiCloud default API client ID
     var $_yubicloud_secret_key     = '';    // YubiCloud default API secret Key
     var $_yubicloud_https          = false; // By default, do not use https
-    var $_yubicloud_urls           = array('api5.yubico.com/wsapi/2.0/verify',
-                                           'api4.yubico.com/wsapi/2.0/verify',
-                                           'api3.yubico.com/wsapi/2.0/verify',
+    var $_yubicloud_urls           = array('api.yubico.com/wsapi/2.0/verify',
                                            'api2.yubico.com/wsapi/2.0/verify',
-                                           'api.yubico.com/wsapi/2.0/verify');
+                                           'api3.yubico.com/wsapi/2.0/verify',
+                                           'api4.yubico.com/wsapi/2.0/verify',
+                                           'api5.yubico.com/wsapi/2.0/verify');
 
     var $_yubicloud_timeout         = 10;      // YubiCloud timeout in seconds
     var $_yubicloud_last_response   = array(); // YubiCloud last response array
@@ -128,7 +129,7 @@ class Yubicloud
      * @retval  void
      *
      * @author  Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-     * @version 4.3.2.0
+     * @version 4.3.2.1
      * @date    2014-12-29
      * @since   2014-11-04
      */
@@ -273,7 +274,7 @@ class Yubicloud
      * @retval  string                 Result of the verification (see below)
      *
      * @author  Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-     * @version 4.3.2.0
+     * @version 4.3.2.1
      * @date    2014-12-29
      * @since   2014-11-04
      *
@@ -340,8 +341,7 @@ class Yubicloud
 
             $server_index = 0;
             foreach ($this->_yubicloud_urls as $one_url) {
-                $url = $one_url.'?'.$url_parameters;
-                
+                $url = $one_url;
                 $protocol = ($this->_yubicloud_https?"ssl://":""); // Default is empty (http)
                 $port = ($this->_yubicloud_https?443:80);
                 $pos = strpos($url, '://');
@@ -379,10 +379,10 @@ class Yubicloud
                 $errno = 0;
                 $errdesc = 0;
 
-                $replies['server'][$server_index] = $protocol.$host;
-                $replies['url'][$server_index] = $url;
+                $replies['yubicloudserver'][$server_index] = $protocol.$host.$url;
                 $replies['reply'][$server_index] = '';
-                $replies['last_length'][$server_index] = 0;
+
+                $url.= '?'.$url_parameters;
 
                 $fp = @fsockopen($protocol.$host, $port, $errno, $errdesc, $this->_yubicloud_timeout);
 
@@ -413,8 +413,8 @@ class Yubicloud
             $start_epoch = time();
             while (($loop_on_servers) && ($servers_done < count($this->_yubicloud_urls))) {
                 $read_array = null;
-                foreach ($replies['fp'] as $key => $pointer) {
-                    if ((!$replies['done'][$key]) && (is_resource($pointer))) {
+                foreach ($replies['fp'] as $server_key => $pointer) {
+                    if ((!$replies['done'][$server_key]) && (is_resource($pointer))) {
                         $read_array[] = $pointer;
                     }
                 }
@@ -429,25 +429,24 @@ class Yubicloud
                    ))) {
                     $loop_on_servers = false;
                 } else {
-                    foreach ($replies['fp'] as $key => $pointer) {
-                        if (!$validated && !$replayed && (!$replies['done'][$key]) && (is_resource($pointer))) {
-                            $replies['info'][$key] = stream_get_meta_data($pointer);
-                            if ($replies['info'][$key]['timed_out']) {
-                                $replies['done'][$key] = true;
-                                $replies['result'][$key] = "SERVER_TIMEOUT";
+                    foreach ($replies['fp'] as $server_key => $pointer) {
+                        if (!$validated && !$replayed && (!$replies['done'][$server_key]) && (is_resource($pointer))) {
+                            $replies['info'][$server_key] = stream_get_meta_data($pointer);
+                            if ($replies['info'][$server_key]['timed_out']) {
+                                $replies['done'][$server_key] = true;
+                                $replies['result'][$server_key] = "SERVER_TIMEOUT";
                                 $servers_done++;
                             }
                         }
                         if (!$validated && !$replayed && ($num_changed_streams > 0)) {
                             foreach ($read_array as $read_pointer) {
                                 if ($pointer == $read_pointer) {
-                                    if ((!$replies['done'][$key]) && (is_resource($pointer))) {
-                                        $fp = $replies['fp'][$key];
-                                        $replies['last_length'][$key] = strlen($replies['reply'][$key]);
-                                        $replies['reply'][$key].= fgets($fp, 1024);
-                                        $replies['info'][$key] = stream_get_meta_data($fp);
+                                    if ((!$replies['done'][$server_key]) && (is_resource($pointer))) {
+                                        $fp = $replies['fp'][$server_key];
+                                        $replies['reply'][$server_key].= fgets($fp, 1024);
+                                        $replies['info'][$server_key] = stream_get_meta_data($fp);
                                         if (feof($fp)) {
-                                            $reply = $replies['reply'][$key];
+                                            $reply = $replies['reply'][$server_key];
                                             $pos = strpos(strtolower($reply), "\r\n\r\n");
                                             $header = substr($reply, 0, $pos);
                                             $body = substr($reply, $pos + 4);
@@ -489,6 +488,7 @@ class Yubicloud
                                                 }
                                             }
 
+                                            $response['yubicloudserver'] = $replies['yubicloudserver'][$server_key];
                                             $this->_yubicloud_last_response = $response;
 
                                             $check_response_hash = "NO-VALID-SECRET-KEY";
@@ -523,8 +523,8 @@ class Yubicloud
                                                 }
                                             }
                                                                             
-                                            $replies['done'][$key] = true;
-                                            $replies['result'][$key] = $response['status'];
+                                            $replies['done'][$server_key] = true;
+                                            $replies['result'][$server_key] = $response['status'];
                                             $servers_done++;
                                             fclose($fp);
                                         }
