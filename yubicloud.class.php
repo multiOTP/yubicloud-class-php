@@ -18,7 +18,7 @@
  *
  * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
  * @version   4.3.2.2
- * @date      2014-11-12
+ * @date      2016-11-12
  * @since     2014-11-04
  * @copyright (c) 2014-2016 SysCo systemes de communication sa
  * @license   GNU Lesser General Public License
