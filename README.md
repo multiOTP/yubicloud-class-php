@@ -14,8 +14,8 @@ No external file is needed (no PEAR, no PECL, no cURL).
 
 # Usage
 
-  You need a free Yubico API key. You can ask for your own key here:
-    https://upgrade.yubico.com/getapikey/
+  You need a Yubico API key which is free if you have at least one Yubikey.
+  You can ask for your own key here: https://upgrade.yubico.com/getapikey/
     
     <?php
         require_once('yubicloud.class.php');
