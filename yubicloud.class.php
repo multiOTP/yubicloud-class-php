@@ -17,10 +17,10 @@
  * PHP 5.3.0 or higher is supported.
  *
  * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
- * @version   4.3.2.1
- * @date      2014-12-29
+ * @version   4.3.2.2
+ * @date      2014-11-12
  * @since     2014-11-04
- * @copyright (c) 2014 SysCo systemes de communication sa
+ * @copyright (c) 2014-2016 SysCo systemes de communication sa
  * @license   GNU Lesser General Public License
  * @link      http://www.multiotp.net/
  *
@@ -28,7 +28,7 @@
  *
  * LICENCE
  *
- *   Copyright (c) 2014 SysCo systemes de communication sa
+ *   Copyright (c) 2014-2016 SysCo systemes de communication sa
  *   SysCo (tm) is a trademark of SysCo systemes de communication sa
  *   (http://www.sysco.ch/)
  *   All rights reserved.
@@ -50,8 +50,8 @@
  *
  * Usage
  *
- *   You need a free Yubico API key. You can ask for your own key here:
- *     https://upgrade.yubico.com/getapikey/
+ *   You need a Yubico API key which is free if you have at least one Yubikey.
+ *   You can ask for your own key here: https://upgrade.yubico.com/getapikey/
  *
  *   <?php
  *     require_once('yubicloud.class.php');
@@ -81,6 +81,7 @@
  *
  * Change Log
  *
+ *   2016-11-12 4.3.2.2 SysCo/al Merge the constructor change proposed by My1 on GitHub (PHP4 style is deprecated in PHP7)
  *   2014-12-29 4.3.2.1 SysCo/al Adding information about the server which answered
  *   2014-12-29 4.3.2.0 SysCo/al Concurrent multiple requests (still without cURL)
  *                               Some modifications for future PSR compliance (http://www.php-fig.org/)
@@ -96,8 +97,8 @@ class Yubicloud
  * @brief     Class definition for Yubicloud handling.
  *
  * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
- * @version   4.3.2.1
- * @date      2014-12-29
+ * @version   4.3.2.2
+ * @date      2016-11-12
  * @since     2014-11-04
  */
 {
@@ -129,8 +130,8 @@ class Yubicloud
      * @retval  void
      *
      * @author  Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
-     * @version 4.3.2.1
-     * @date    2014-12-29
+     * @version 4.3.2.2
+     * @date    2014-11-12
      * @since   2014-11-04
      */
     {
