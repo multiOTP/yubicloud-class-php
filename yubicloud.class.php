@@ -118,7 +118,7 @@ class Yubicloud
 	const YUBICO_MODHEX_CHARS = "cbdefghijklnrtuv"; // ModHex values (instead of 01234567890abcdef)
 
 
-    function Yubicloud($yubicloud_client_id = 1, $yubicloud_secret_key = '', $yubicloud_https = false)
+    function __construct($yubicloud_client_id = 1, $yubicloud_secret_key = '', $yubicloud_https = false)
     /**
      * @brief   Class constructor.
      *
