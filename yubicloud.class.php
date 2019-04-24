@@ -106,7 +106,7 @@ class Yubicloud
 {
     var $_yubicloud_client_id      = 1;     // YubiCloud default API client ID
     var $_yubicloud_secret_key     = '';    // YubiCloud default API secret Key
-    var $_yubicloud_https          = true;  // By default, use https
+    var $_yubicloud_https          = true; // By default, use https
     var $_yubicloud_urls           = array('api.yubico.com/wsapi/2.0/verify',
                                            'api2.yubico.com/wsapi/2.0/verify',
                                            'api3.yubico.com/wsapi/2.0/verify',
