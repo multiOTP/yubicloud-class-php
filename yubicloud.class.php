@@ -105,7 +105,7 @@ class Yubicloud
 {
     var $_yubicloud_client_id      = 1;     // YubiCloud default API client ID
     var $_yubicloud_secret_key     = '';    // YubiCloud default API secret Key
-    var $_yubicloud_https          = false; // By default, do not use https
+    var $_yubicloud_https          = true; // By default, use https
     var $_yubicloud_urls           = array('api.yubico.com/wsapi/2.0/verify',
                                            'api2.yubico.com/wsapi/2.0/verify',
                                            'api3.yubico.com/wsapi/2.0/verify',
@@ -120,14 +120,14 @@ class Yubicloud
 	const YUBICO_MODHEX_CHARS = "cbdefghijklnrtuv"; // ModHex values (instead of 01234567890abcdef)
 
 
-    function __construct($yubicloud_client_id = 1, $yubicloud_secret_key = '', $yubicloud_https = false, $yubicloud_server_list = null)
+    function __construct($yubicloud_client_id = 1, $yubicloud_secret_key = '', $yubicloud_https = true, $yubicloud_server_list = null)
     /**
      * @brief   Class constructor.
      *
      * Sets up the object
      * @param string  $yubicloud_client_id   The client identity (optional, default 1)
      * @param string  $yubicloud_secret_key  The client MAC key (optional, default '')
-     * @param boolean $yubicloud_https       Flag whether to use https (optional, default false)
+     * @param boolean $yubicloud_https       Flag whether to use https (optional, default true)
      * @param array   $yubicloud_server_list Array of Yubicloud servers (optional, default null)
      * @retval  void
      *
