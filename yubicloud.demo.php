@@ -10,10 +10,10 @@
  * PHP 5.3.0 or higher is supported.
  *
  * @author    Andre Liechti, SysCo systemes de communication sa, <info@multiotp.net>
- * @version   4.3.2.2
- * @date      2016-11-12
+ * @version   4.3.3.2
+ * @date      2019-04-24
  * @since     2014-11-04
- * @copyright (c) 2014-2016 SysCo systemes de communication sa
+ * @copyright (c) 2014-2019 SysCo systemes de communication sa
  * @license   GNU Lesser General Public License
  * @link      http://www.multiotp.net/
  *
@@ -21,7 +21,7 @@
  *
  * LICENCE
  *
- *   Copyright (c) 2014-2016 SysCo systemes de communication sa
+ *   Copyright (c) 2014-2019 SysCo systemes de communication sa
  *   SysCo (tm) is a trademark of SysCo systemes de communication sa
  *   (http://www.sysco.ch/)
  *   All rights reserved.
@@ -51,6 +51,7 @@
  *
  * Change Log
  *
+ *   2019-04-24 4.3.3.2 SysCo/al https is now the default connection, merged from matthieuonfray fork on GitHub
  *   2016-11-12 4.3.2.2 SysCo/al Merge the constructor change proposed by My1 on GitHub (PHP4 style is deprecated in PHP7)
  *   2014-12-29 4.3.2.1 SysCo/al Adding information about the server which answered
  *   2014-12-29 4.3.2.0 SysCo/al Some modifications for future PSR compliance (http://www.php-fig.org/)
